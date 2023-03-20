@@ -9,11 +9,11 @@ pipeline {
     stages {
         stage('Build and Push Docker images') {
             steps {
-                sh 'docker build -t Aelfiiky/flaskapp ./flaskapp'
-                sh 'docker build -t Aelfiiky/db ./db'
+                sh 'docker build -t aelfiiky/flaskapp ./flaskapp'
+                sh 'docker build -t aelfiiky/db ./db'
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker push Aelfiiky/flaskapp'
-                sh 'docker push Aelfiiky/db'
+                sh 'docker push aelfiiky/flaskapp'
+                sh 'docker push aelfiiky/db'
             }
         }
     }
