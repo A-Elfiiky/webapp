@@ -9,7 +9,8 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker-compose up -t Aelfiiky/jenkins-docker-hub .'
+        sh 'docker-compose build -t Aelfiiky/jenkins-docker-hub .'
+        echo 'Docker-compose-build Build Image Completed' 
       }
     }
     stage('Login') {
