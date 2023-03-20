@@ -1,19 +1,25 @@
 pipeline {
     agent any
-    tools {
-        git 'Default'    
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    }
     stages {
         stage('Build and Push Docker images') {
             steps {
-                git 'https://github.com/A-Elfiiky/webapp.git'
-                sh 'docker build -t fikky/flaskapp ./flaskapp'
-                sh 'docker build -t fikky/db ./db'
-                withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIALS', variable: 'DOCKER_HUB_CREDENTIALS')]) {
-                    sh "docker login -u <aelfiiky/jenkins-docker-hub> -p $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-                    sh 'docker push fikky/flaskapp'
-                    sh 'docker push fikky/db'
-                }
+                sh 'docker build -t Aelfiiky/flaskapp ./flaskapp'
+                sh 'docker build -t Aelfiiky/db ./db'
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh 'docker push Aelfiiky/flaskapp'
+                sh 'docker push Aelfiiky/db'
             }
+        }
+    }
+    post {
+        always {
+            sh 'docker logout'
         }
     }
 }
