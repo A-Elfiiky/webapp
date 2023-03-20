@@ -1,6 +1,7 @@
 pipeline {
     agent any
-    
+    tools {
+        git 'Default'    
     stages {
         stage('Build and Push Docker images') {
             steps {
